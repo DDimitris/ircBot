@@ -25,12 +25,12 @@ public class MyBot extends PircBot {
 			String[] names = message.substring(16).split("\\s");
 			String summonerName = "", sendName = "";
 			for(int i = 1;i < names.length;i++) {
-					sendName += names[i];
-					summonerName += names[i];
-					if(i != names.length-1)
-					{
-						summonerName += " ";
-					}
+				sendName += names[i];
+				summonerName += names[i];
+				if(i != names.length-1)
+				{
+					summonerName += " ";
+				}
 			}
 			try {
 				Connection con = Jsoup.connect("http://www.lolking.net/search?name="+sendName);
@@ -43,7 +43,10 @@ public class MyBot extends PircBot {
 					sendMessage(channel, sender + ": Summoner " + summonerName + " is unranked or not exist!");
 				}
 				else {
-					sendMessage(channel, sender + ": Summoner " + summonerName + " is " + rank);
+					String summonerLink = euneBox.attr("onclick").substring(17);
+					int lastIndex = summonerLink.lastIndexOf("'");
+					summonerLink = summonerLink.substring(0, lastIndex);
+					sendMessage(channel, sender + ": Summoner " + summonerName + " is " + rank + " http://lolking.net" + summonerLink);
 				}
 			}
 			catch (IOException e) {
